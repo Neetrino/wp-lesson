@@ -433,9 +433,6 @@ function initializeTypingEffect() {
 function initializeElementorBuilder() {
     const elementorBuilder = document.querySelector('.elementor-builder');
     const widgetItems = document.querySelectorAll('.widget-item');
-    const droppableArea = document.getElementById('droppable-area');
-    const elementContainers = document.querySelectorAll('.element-container');
-    const tabs = document.querySelectorAll('.tab');
     const alignButtons = document.querySelectorAll('.align-btn');
     
     if (!elementorBuilder) return;
@@ -451,60 +448,10 @@ function initializeElementorBuilder() {
         elementorBuilder.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
     });
     
-    // Widget drag and drop functionality
+    // Widget click functionality
     widgetItems.forEach(widget => {
-        widget.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', widget.dataset.widget);
-            widget.style.opacity = '0.5';
-        });
-        
-        widget.addEventListener('dragend', (e) => {
-            widget.style.opacity = '1';
-        });
-    });
-    
-    // Droppable area functionality
-    droppableArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        droppableArea.classList.add('drag-over');
-    });
-    
-    droppableArea.addEventListener('dragleave', () => {
-        droppableArea.classList.remove('drag-over');
-    });
-    
-    droppableArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        droppableArea.classList.remove('drag-over');
-        
-        const widgetType = e.dataTransfer.getData('text/plain');
-        addElementToCanvas(widgetType);
-    });
-    
-    // Element selection functionality
-    elementContainers.forEach(element => {
-        element.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            // Remove selection from all elements
-            elementContainers.forEach(el => el.classList.remove('selected'));
-            
-            // Select clicked element
-            element.classList.add('selected');
-            
-            // Update settings panel
-            updateSettingsPanel(element);
-        });
-    });
-    
-    // Tab switching functionality
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            // Show device-specific info
-            showDeviceInfo(tab.textContent);
+        widget.addEventListener('click', () => {
+            showNotification(`${widget.dataset.widget} component selected`, 'info');
         });
     });
     
@@ -515,238 +462,85 @@ function initializeElementorBuilder() {
             button.classList.add('active');
             
             // Apply alignment to selected element
-            applyAlignment(button.textContent);
+            const alignment = button.dataset.align || button.textContent;
+            applyAlignment(alignment);
         });
     });
     
-    // Element controls functionality
-    elementContainers.forEach(element => {
-        const controls = element.querySelectorAll('.element-controls i');
-        controls.forEach((control, index) => {
-            control.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                switch(index) {
-                    case 0: // Edit
-                        editElement(element);
-                        break;
-                    case 1: // Copy
-                        copyElement(element);
-                        break;
-                    case 2: // Delete
-                        deleteElement(element);
-                        break;
-                }
-            });
+    // Range input functionality
+    const rangeInputs = document.querySelectorAll('.modern-range');
+    rangeInputs.forEach(range => {
+        range.addEventListener('input', (e) => {
+            const value = e.target.value;
+            const valueDisplay = e.target.parentElement.querySelector('.setting-value');
+            if (valueDisplay) {
+                valueDisplay.textContent = value + 'px';
+            }
         });
     });
     
-    // Action buttons functionality
-    const saveBtn = document.querySelector('.btn-save');
-    const previewBtn = document.querySelector('.btn-preview');
-    const publishBtn = document.querySelector('.btn-publish');
-    
-    if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
-            showNotification('Page saved successfully!', 'success');
+    // Color input functionality
+    const colorInputs = document.querySelectorAll('.modern-color-input');
+    colorInputs.forEach(colorInput => {
+        colorInput.addEventListener('change', (e) => {
+            const color = e.target.value;
+            const preview = e.target.parentElement.querySelector('.color-preview');
+            if (preview) {
+                preview.style.backgroundColor = color;
+            }
         });
-    }
+    });
     
-    if (previewBtn) {
-        previewBtn.addEventListener('click', () => {
-            showNotification('Opening preview...', 'info');
+    // Toggle switch functionality
+    const toggleSwitches = document.querySelectorAll('.toggle-switch input[type="checkbox"]');
+    toggleSwitches.forEach(toggle => {
+        toggle.addEventListener('change', (e) => {
+            const label = e.target.parentElement.querySelector('.toggle-label');
+            if (label) {
+                label.textContent = e.target.checked ? 'Visible' : 'Hidden';
+            }
         });
-    }
+    });
     
-    if (publishBtn) {
-        publishBtn.addEventListener('click', () => {
-            showNotification('Page published!', 'success');
+    // Settings action buttons
+    const settingsActionBtns = document.querySelectorAll('.settings-action-btn');
+    settingsActionBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-undo')) {
+                showNotification('Settings reset to default', 'info');
+            } else if (icon.classList.contains('fa-copy')) {
+                showNotification('Settings copied to clipboard', 'success');
+            }
+        });
+    });
+    
+    
+    // Website preview interactions
+    const mockupMenuItems = document.querySelectorAll('.mockup-menu span');
+    const mockupBtn = document.querySelector('.mockup-btn');
+    
+    mockupMenuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            mockupMenuItems.forEach(menuItem => menuItem.style.color = '#6c757d');
+            item.style.color = '#070E61';
+            showNotification(`${item.textContent} section selected`, 'info');
+        });
+    });
+    
+    if (mockupBtn) {
+        mockupBtn.addEventListener('click', () => {
+            showNotification('Get Started button clicked!', 'success');
         });
     }
 }
 
 // ===== ELEMENTOR HELPER FUNCTIONS =====
 
-// Add element to canvas
-function addElementToCanvas(widgetType) {
-    const droppableArea = document.getElementById('droppable-area');
-    const elementTemplates = {
-        heading: {
-            content: '<h2>New Heading</h2>',
-            type: 'heading'
-        },
-        text: {
-            content: '<p>New text content</p>',
-            type: 'text'
-        },
-        button: {
-            content: '<button class="elementor-button">New Button</button>',
-            type: 'button'
-        },
-        image: {
-            content: '<div class="image-placeholder"><i class="fas fa-image"></i><span>Image</span></div>',
-            type: 'image'
-        },
-        icon: {
-            content: '<i class="fas fa-star"></i>',
-            type: 'icon'
-        },
-        spacer: {
-            content: '<div class="spacer-element"></div>',
-            type: 'spacer'
-        }
-    };
-    
-    const template = elementTemplates[widgetType];
-    if (!template) return;
-    
-    const elementContainer = document.createElement('div');
-    elementContainer.className = 'element-container';
-    elementContainer.setAttribute('data-element', template.type);
-    
-    elementContainer.innerHTML = `
-        <div class="element-content">
-            ${template.content}
-        </div>
-        <div class="element-controls">
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-copy"></i>
-            <i class="fas fa-trash"></i>
-        </div>
-    `;
-    
-    // Add event listeners to new element
-    addElementListeners(elementContainer);
-    
-    droppableArea.appendChild(elementContainer);
-    
-    // Show success message
-    showNotification(`${widgetType} element added!`, 'success');
-}
 
-// Add event listeners to element
-function addElementListeners(element) {
-    // Selection
-    element.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // Remove selection from all elements
-        document.querySelectorAll('.element-container').forEach(el => el.classList.remove('selected'));
-        
-        // Select clicked element
-        element.classList.add('selected');
-        
-        // Update settings panel
-        updateSettingsPanel(element);
-    });
-    
-    // Controls
-    const controls = element.querySelectorAll('.element-controls i');
-    controls.forEach((control, index) => {
-        control.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            switch(index) {
-                case 0: // Edit
-                    editElement(element);
-                    break;
-                case 1: // Copy
-                    copyElement(element);
-                    break;
-                case 2: // Delete
-                    deleteElement(element);
-                    break;
-            }
-        });
-    });
-}
-
-// Update settings panel
-function updateSettingsPanel(element) {
-    const elementType = element.dataset.element;
-    const select = document.querySelector('.setting-group select');
-    
-    if (select) {
-        select.value = elementType.charAt(0).toUpperCase() + elementType.slice(1);
-    }
-}
-
-// Edit element
-function editElement(element) {
-    const content = element.querySelector('.element-content');
-    const currentText = content.textContent.trim();
-    
-    const newText = prompt('Edit content:', currentText);
-    if (newText !== null) {
-        if (element.dataset.element === 'heading') {
-            content.innerHTML = `<h2>${newText}</h2>`;
-        } else if (element.dataset.element === 'text') {
-            content.innerHTML = `<p>${newText}</p>`;
-        } else if (element.dataset.element === 'button') {
-            content.innerHTML = `<button class="elementor-button">${newText}</button>`;
-        } else {
-            content.textContent = newText;
-        }
-        
-        showNotification('Element updated!', 'success');
-    }
-}
-
-// Copy element
-function copyElement(element) {
-    const clonedElement = element.cloneNode(true);
-    clonedElement.classList.remove('selected');
-    
-    // Add event listeners to cloned element
-    addElementListeners(clonedElement);
-    
-    element.parentNode.insertBefore(clonedElement, element.nextSibling);
-    showNotification('Element copied!', 'success');
-}
-
-// Delete element
-function deleteElement(element) {
-    if (confirm('Are you sure you want to delete this element?')) {
-        element.remove();
-        showNotification('Element deleted!', 'info');
-    }
-}
-
-// Show device info
-function showDeviceInfo(device) {
-    const deviceInfo = {
-        'Desktop': 'Desktop view - Full width layout',
-        'Tablet': 'Tablet view - Responsive layout for tablets',
-        'Mobile': 'Mobile view - Mobile-optimized layout'
-    };
-    
-    showNotification(deviceInfo[device] || 'Device view changed', 'info');
-}
 
 // Apply alignment
 function applyAlignment(alignment) {
-    const selectedElement = document.querySelector('.element-container.selected');
-    if (!selectedElement) return;
-    
-    const content = selectedElement.querySelector('.element-content');
-    if (!content) return;
-    
-    // Remove existing alignment classes
-    content.classList.remove('text-left', 'text-center', 'text-right');
-    
-    // Add new alignment class
-    switch(alignment.toLowerCase()) {
-        case 'left':
-            content.classList.add('text-left');
-            break;
-        case 'center':
-            content.classList.add('text-center');
-            break;
-        case 'right':
-            content.classList.add('text-right');
-            break;
-    }
-    
     showNotification(`Alignment set to ${alignment}`, 'success');
 }
 
