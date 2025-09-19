@@ -76,10 +76,136 @@
                 </div>
             </div>
             <div class="hero-image">
-                <div class="hero-card">
-                    <i class="fas fa-laptop-code"></i>
-                    <h3>WordPress</h3>
-                    <p>Պրոֆեսիոնալ կայքեր</p>
+                <div class="elementor-builder">
+                    <!-- Elementor Header -->
+                    <div class="elementor-header">
+                        <div class="elementor-logo">
+                            <i class="fas fa-cube"></i>
+                            <span>Elementor</span>
+                        </div>
+                        <div class="elementor-actions">
+                            <button class="btn-save">Save</button>
+                            <button class="btn-preview">Preview</button>
+                            <button class="btn-publish">Publish</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Elementor Main Content -->
+                    <div class="elementor-main">
+                        <!-- Left Panel - Widgets -->
+                        <div class="elementor-panel">
+                            <div class="panel-header">
+                                <h3>Elements</h3>
+                            </div>
+                            <div class="widgets-grid">
+                                <div class="widget-item" data-widget="heading">
+                                    <i class="fas fa-heading"></i>
+                                    <span>Heading</span>
+                                </div>
+                                <div class="widget-item" data-widget="text">
+                                    <i class="fas fa-font"></i>
+                                    <span>Text</span>
+                                </div>
+                                <div class="widget-item" data-widget="button">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    <span>Button</span>
+                                </div>
+                                <div class="widget-item" data-widget="image">
+                                    <i class="fas fa-image"></i>
+                                    <span>Image</span>
+                                </div>
+                                <div class="widget-item" data-widget="icon">
+                                    <i class="fas fa-star"></i>
+                                    <span>Icon</span>
+                                </div>
+                                <div class="widget-item" data-widget="spacer">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                    <span>Spacer</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Canvas Area -->
+                        <div class="elementor-canvas">
+                            <div class="canvas-header">
+                                <div class="canvas-tabs">
+                                    <div class="tab active">Desktop</div>
+                                    <div class="tab">Tablet</div>
+                                    <div class="tab">Mobile</div>
+                                </div>
+                                <div class="canvas-zoom">
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            <div class="canvas-content">
+                                <div class="droppable-area" id="droppable-area">
+                                    <div class="element-container" data-element="heading">
+                                        <div class="element-content">
+                                            <h2>Welcome to WordPress</h2>
+                                        </div>
+                                        <div class="element-controls">
+                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-copy"></i>
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="element-container" data-element="text">
+                                        <div class="element-content">
+                                            <p>Create amazing websites with Elementor page builder</p>
+                                        </div>
+                                        <div class="element-controls">
+                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-copy"></i>
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="element-container" data-element="button">
+                                        <div class="element-content">
+                                            <button class="elementor-button">Get Started</button>
+                                        </div>
+                                        <div class="element-controls">
+                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-copy"></i>
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Panel - Settings -->
+                        <div class="elementor-settings">
+                            <div class="settings-header">
+                                <h3>Settings</h3>
+                            </div>
+                            <div class="settings-content">
+                                <div class="setting-group">
+                                    <label>Element Type</label>
+                                    <select>
+                                        <option>Heading</option>
+                                        <option>Text</option>
+                                        <option>Button</option>
+                                    </select>
+                                </div>
+                                <div class="setting-group">
+                                    <label>Text Color</label>
+                                    <input type="color" value="#333333">
+                                </div>
+                                <div class="setting-group">
+                                    <label>Font Size</label>
+                                    <input type="range" min="12" max="48" value="24">
+                                </div>
+                                <div class="setting-group">
+                                    <label>Alignment</label>
+                                    <div class="alignment-buttons">
+                                        <button class="align-btn active">Left</button>
+                                        <button class="align-btn">Center</button>
+                                        <button class="align-btn">Right</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

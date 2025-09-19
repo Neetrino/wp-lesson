@@ -429,6 +429,624 @@ function initializeTypingEffect() {
     });
 }
 
+// ===== ELEMENTOR BUILDER INTERACTIONS =====
+function initializeElementorBuilder() {
+    const elementorBuilder = document.querySelector('.elementor-builder');
+    const widgetItems = document.querySelectorAll('.widget-item');
+    const droppableArea = document.getElementById('droppable-area');
+    const elementContainers = document.querySelectorAll('.element-container');
+    const tabs = document.querySelectorAll('.tab');
+    const alignButtons = document.querySelectorAll('.align-btn');
+    
+    if (!elementorBuilder) return;
+    
+    // Add hover effect to builder
+    elementorBuilder.addEventListener('mouseenter', () => {
+        elementorBuilder.style.transform = 'scale(1.01)';
+        elementorBuilder.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.15)';
+    });
+    
+    elementorBuilder.addEventListener('mouseleave', () => {
+        elementorBuilder.style.transform = 'scale(1)';
+        elementorBuilder.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+    });
+    
+    // Widget drag and drop functionality
+    widgetItems.forEach(widget => {
+        widget.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', widget.dataset.widget);
+            widget.style.opacity = '0.5';
+        });
+        
+        widget.addEventListener('dragend', (e) => {
+            widget.style.opacity = '1';
+        });
+    });
+    
+    // Droppable area functionality
+    droppableArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        droppableArea.classList.add('drag-over');
+    });
+    
+    droppableArea.addEventListener('dragleave', () => {
+        droppableArea.classList.remove('drag-over');
+    });
+    
+    droppableArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        droppableArea.classList.remove('drag-over');
+        
+        const widgetType = e.dataTransfer.getData('text/plain');
+        addElementToCanvas(widgetType);
+    });
+    
+    // Element selection functionality
+    elementContainers.forEach(element => {
+        element.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Remove selection from all elements
+            elementContainers.forEach(el => el.classList.remove('selected'));
+            
+            // Select clicked element
+            element.classList.add('selected');
+            
+            // Update settings panel
+            updateSettingsPanel(element);
+        });
+    });
+    
+    // Tab switching functionality
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Show device-specific info
+            showDeviceInfo(tab.textContent);
+        });
+    });
+    
+    // Alignment buttons functionality
+    alignButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            alignButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Apply alignment to selected element
+            applyAlignment(button.textContent);
+        });
+    });
+    
+    // Element controls functionality
+    elementContainers.forEach(element => {
+        const controls = element.querySelectorAll('.element-controls i');
+        controls.forEach((control, index) => {
+            control.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                switch(index) {
+                    case 0: // Edit
+                        editElement(element);
+                        break;
+                    case 1: // Copy
+                        copyElement(element);
+                        break;
+                    case 2: // Delete
+                        deleteElement(element);
+                        break;
+                }
+            });
+        });
+    });
+    
+    // Action buttons functionality
+    const saveBtn = document.querySelector('.btn-save');
+    const previewBtn = document.querySelector('.btn-preview');
+    const publishBtn = document.querySelector('.btn-publish');
+    
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            showNotification('Page saved successfully!', 'success');
+        });
+    }
+    
+    if (previewBtn) {
+        previewBtn.addEventListener('click', () => {
+            showNotification('Opening preview...', 'info');
+        });
+    }
+    
+    if (publishBtn) {
+        publishBtn.addEventListener('click', () => {
+            showNotification('Page published!', 'success');
+        });
+    }
+}
+
+// ===== ELEMENTOR HELPER FUNCTIONS =====
+
+// Add element to canvas
+function addElementToCanvas(widgetType) {
+    const droppableArea = document.getElementById('droppable-area');
+    const elementTemplates = {
+        heading: {
+            content: '<h2>New Heading</h2>',
+            type: 'heading'
+        },
+        text: {
+            content: '<p>New text content</p>',
+            type: 'text'
+        },
+        button: {
+            content: '<button class="elementor-button">New Button</button>',
+            type: 'button'
+        },
+        image: {
+            content: '<div class="image-placeholder"><i class="fas fa-image"></i><span>Image</span></div>',
+            type: 'image'
+        },
+        icon: {
+            content: '<i class="fas fa-star"></i>',
+            type: 'icon'
+        },
+        spacer: {
+            content: '<div class="spacer-element"></div>',
+            type: 'spacer'
+        }
+    };
+    
+    const template = elementTemplates[widgetType];
+    if (!template) return;
+    
+    const elementContainer = document.createElement('div');
+    elementContainer.className = 'element-container';
+    elementContainer.setAttribute('data-element', template.type);
+    
+    elementContainer.innerHTML = `
+        <div class="element-content">
+            ${template.content}
+        </div>
+        <div class="element-controls">
+            <i class="fas fa-edit"></i>
+            <i class="fas fa-copy"></i>
+            <i class="fas fa-trash"></i>
+        </div>
+    `;
+    
+    // Add event listeners to new element
+    addElementListeners(elementContainer);
+    
+    droppableArea.appendChild(elementContainer);
+    
+    // Show success message
+    showNotification(`${widgetType} element added!`, 'success');
+}
+
+// Add event listeners to element
+function addElementListeners(element) {
+    // Selection
+    element.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Remove selection from all elements
+        document.querySelectorAll('.element-container').forEach(el => el.classList.remove('selected'));
+        
+        // Select clicked element
+        element.classList.add('selected');
+        
+        // Update settings panel
+        updateSettingsPanel(element);
+    });
+    
+    // Controls
+    const controls = element.querySelectorAll('.element-controls i');
+    controls.forEach((control, index) => {
+        control.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            switch(index) {
+                case 0: // Edit
+                    editElement(element);
+                    break;
+                case 1: // Copy
+                    copyElement(element);
+                    break;
+                case 2: // Delete
+                    deleteElement(element);
+                    break;
+            }
+        });
+    });
+}
+
+// Update settings panel
+function updateSettingsPanel(element) {
+    const elementType = element.dataset.element;
+    const select = document.querySelector('.setting-group select');
+    
+    if (select) {
+        select.value = elementType.charAt(0).toUpperCase() + elementType.slice(1);
+    }
+}
+
+// Edit element
+function editElement(element) {
+    const content = element.querySelector('.element-content');
+    const currentText = content.textContent.trim();
+    
+    const newText = prompt('Edit content:', currentText);
+    if (newText !== null) {
+        if (element.dataset.element === 'heading') {
+            content.innerHTML = `<h2>${newText}</h2>`;
+        } else if (element.dataset.element === 'text') {
+            content.innerHTML = `<p>${newText}</p>`;
+        } else if (element.dataset.element === 'button') {
+            content.innerHTML = `<button class="elementor-button">${newText}</button>`;
+        } else {
+            content.textContent = newText;
+        }
+        
+        showNotification('Element updated!', 'success');
+    }
+}
+
+// Copy element
+function copyElement(element) {
+    const clonedElement = element.cloneNode(true);
+    clonedElement.classList.remove('selected');
+    
+    // Add event listeners to cloned element
+    addElementListeners(clonedElement);
+    
+    element.parentNode.insertBefore(clonedElement, element.nextSibling);
+    showNotification('Element copied!', 'success');
+}
+
+// Delete element
+function deleteElement(element) {
+    if (confirm('Are you sure you want to delete this element?')) {
+        element.remove();
+        showNotification('Element deleted!', 'info');
+    }
+}
+
+// Show device info
+function showDeviceInfo(device) {
+    const deviceInfo = {
+        'Desktop': 'Desktop view - Full width layout',
+        'Tablet': 'Tablet view - Responsive layout for tablets',
+        'Mobile': 'Mobile view - Mobile-optimized layout'
+    };
+    
+    showNotification(deviceInfo[device] || 'Device view changed', 'info');
+}
+
+// Apply alignment
+function applyAlignment(alignment) {
+    const selectedElement = document.querySelector('.element-container.selected');
+    if (!selectedElement) return;
+    
+    const content = selectedElement.querySelector('.element-content');
+    if (!content) return;
+    
+    // Remove existing alignment classes
+    content.classList.remove('text-left', 'text-center', 'text-right');
+    
+    // Add new alignment class
+    switch(alignment.toLowerCase()) {
+        case 'left':
+            content.classList.add('text-left');
+            break;
+        case 'center':
+            content.classList.add('text-center');
+            break;
+        case 'right':
+            content.classList.add('text-right');
+            break;
+    }
+    
+    showNotification(`Alignment set to ${alignment}`, 'success');
+}
+
+// ===== TOOL INFO MODAL =====
+function showToolInfo(toolName, toolIndex) {
+    const toolInfo = [
+        {
+            title: 'Header Tool',
+            description: 'Կայքի վերնագիր և նավիգացիա',
+            details: 'Այս գործիքով կարող եք ստեղծել կայքի վերնագիրը, լոգոն և հիմնական նավիգացիոն մենյուն:',
+            features: ['Լոգո տեղադրում', 'Նավիգացիոն մենյու', 'Որոնման դաշտ', 'Սոցիալական ցանցերի հղումներ']
+        },
+        {
+            title: 'Content Tool',
+            description: 'Բովանդակության բլոկներ',
+            details: 'Այս գործիքով կարող եք ավելացնել տեքստ, պատկերներ, վիդեո և այլ բովանդակություն:',
+            features: ['Տեքստային բլոկներ', 'Պատկերների գալերեա', 'Վիդեո ներդիր', 'Կոճակներ և հղումներ']
+        },
+        {
+            title: 'Footer Tool',
+            description: 'Կայքի ստորագիր',
+            details: 'Այս գործիքով կարող եք ստեղծել կայքի ստորագիրը և լրացուցիչ տեղեկություններ:',
+            features: ['Կապի տվյալներ', 'Սոցիալական ցանցեր', 'Լրացուցիչ հղումներ', 'Հեղինակային իրավունք']
+        }
+    ];
+    
+    const info = toolInfo[toolIndex] || toolInfo[0];
+    
+    const modal = document.createElement('div');
+    modal.className = 'tool-info-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${info.title}</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>${info.description}</strong></p>
+                <p>${info.details}</p>
+                <div class="features-list">
+                    <h4>Հնարավորություններ:</h4>
+                    <ul>
+                        ${info.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Իմանալ ավելին</button>
+            </div>
+        </div>
+    `;
+    
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(modal);
+    
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+    
+    // Close modal functionality
+    const closeBtn = modal.querySelector('.modal-close');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => modal.remove(), 300);
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => modal.remove(), 300);
+        }
+    });
+    
+    // Modal content styles
+    modalContent.style.cssText = `
+        background: var(--white);
+        color: var(--text-color);
+        border-radius: 15px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        border: 2px solid var(--border-color);
+    `;
+    
+    // Style features list
+    const featuresList = modal.querySelector('.features-list');
+    featuresList.style.cssText = `
+        background: var(--light-gray);
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+    `;
+    
+    const featuresUl = modal.querySelector('ul');
+    featuresUl.style.cssText = `
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0 0;
+    `;
+    
+    const featuresLi = modal.querySelectorAll('li');
+    featuresLi.forEach(li => {
+        li.style.cssText = `
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: 20px;
+        `;
+        li.innerHTML = `✓ ${li.textContent}`;
+    });
+    
+    setTimeout(() => {
+        modalContent.style.transform = 'scale(1)';
+    }, 10);
+}
+
+// ===== CARD INFO MODAL =====
+function showCardInfo(cardIndex) {
+    const cardInfo = [
+        { title: 'Service Card', description: 'Ծառայությունների բլոկ' },
+        { title: 'Product Card', description: 'Արտադրանքի բլոկ' },
+        { title: 'Team Card', description: 'Թիմի անդամների բլոկ' }
+    ];
+    
+    const info = cardInfo[cardIndex] || cardInfo[0];
+    
+    const modal = document.createElement('div');
+    modal.className = 'card-info-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${info.title}</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>${info.description}</p>
+                <p>Կարող եք ավելացնել պատկեր, տեքստ և կոճակներ:</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Իմանալ ավելին</button>
+            </div>
+        </div>
+    `;
+    
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(modal);
+    
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+    
+    // Close modal functionality
+    const closeBtn = modal.querySelector('.modal-close');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => modal.remove(), 300);
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => modal.remove(), 300);
+        }
+    });
+    
+    // Modal content styles
+    modalContent.style.cssText = `
+        background: var(--white);
+        color: var(--text-color);
+        border-radius: 15px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        border: 2px solid var(--border-color);
+    `;
+    
+    setTimeout(() => {
+        modalContent.style.transform = 'scale(1)';
+    }, 10);
+}
+
+// ===== NAV INFO MODAL =====
+function showNavInfo(navIndex) {
+    const navInfo = [
+        { title: 'Home', description: 'Գլխավոր էջ' },
+        { title: 'About', description: 'Մեր մասին' },
+        { title: 'Contact', description: 'Կապ' }
+    ];
+    
+    const info = navInfo[navIndex] || navInfo[0];
+    
+    const modal = document.createElement('div');
+    modal.className = 'nav-info-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${info.title}</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>${info.description}</p>
+                <p>Նավիգացիոն մենյուի հիմնական էջերից մեկը:</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Իմանալ ավելին</button>
+            </div>
+        </div>
+    `;
+    
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(modal);
+    
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+    
+    // Close modal functionality
+    const closeBtn = modal.querySelector('.modal-close');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => modal.remove(), 300);
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => modal.remove(), 300);
+        }
+    });
+    
+    // Modal content styles
+    modalContent.style.cssText = `
+        background: var(--white);
+        color: var(--text-color);
+        border-radius: 15px;
+        max-width: 350px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        border: 2px solid var(--border-color);
+    `;
+    
+    setTimeout(() => {
+        modalContent.style.transform = 'scale(1)';
+    }, 10);
+}
+
 // ===== INITIALIZE ALL FUNCTIONALITY =====
 document.addEventListener('DOMContentLoaded', () => {
     // Create scroll to top button
@@ -445,6 +1063,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize typing effects
     initializeTypingEffect();
+    
+    // Initialize elementor builder interactions
+    initializeElementorBuilder();
     
     // Add loading animation
     document.body.classList.add('loaded');
