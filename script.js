@@ -2,7 +2,6 @@
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
-const contactForm = document.getElementById('contact-form');
 
 // ===== MOBILE NAVIGATION =====
 if (navToggle && navMenu) {
@@ -151,43 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ===== CONTACT FORM HANDLING =====
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const phone = formData.get('phone');
-        const message = formData.get('message');
-        
-        // Basic validation
-        if (!name || !email || !message) {
-            showNotification('Խնդրում ենք լրացնել բոլոր պարտադիր դաշտերը', 'error');
-            return;
-        }
-        
-        if (!isValidEmail(email)) {
-            showNotification('Խնդրում ենք մուտքագրել վավեր էլ. փոստի հասցե', 'error');
-            return;
-        }
-        
-        // Simulate form submission
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Ուղարկվում է...';
-        submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            showNotification('Ձեր հաղորդագրությունը հաջողությամբ ուղարկվեց!', 'success');
-            contactForm.reset();
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
-    });
-}
 
 // ===== EMAIL VALIDATION =====
 function isValidEmail(email) {

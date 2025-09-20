@@ -1,45 +1,38 @@
 #!/bin/bash
 
-# WordPress Lesson Project - Commit Changes
-# This script commits all changes made to the project
+# WordPress Academy - Commit Changes Script
+# This script commits all changes to the repository
 
-echo "🚀 Committing WordPress Lesson Project changes..."
+echo "🚀 Starting commit process..."
 
 # Check if we're in a git repository
 if [ ! -d ".git" ]; then
-    echo "📁 Initializing git repository..."
+    echo "❌ Not a git repository. Initializing..."
     git init
 fi
 
-# Add all changes
-echo "📝 Adding all changes..."
+# Add all files
+echo "📁 Adding files to staging..."
 git add .
 
 # Check status
 echo "📊 Git status:"
 git status
 
-# Commit with descriptive message
+# Commit with message
 echo "💾 Committing changes..."
-git commit -m "feat: Update WordPress lesson dashboard and course info
+git commit -m "feat: restore WordPress animated block in hero section
 
-- Changed course duration from 3 weeks to 3 months
-- Updated dashboard header to 'Built a website'
-- Removed logo, save, preview, publish buttons from header
-- Made 'Components' title smaller
-- Replaced Settings panel with Website Preview mockup
-- Added new Course Info section with 4 blocks:
-  * Monthly price: 35,000 AMD
-  * Duration: 3 months
-  * Format: offline/online
-  * Schedule: 2 days per week
-- Made info blocks display in single line with smaller size
-- Improved responsive design for mobile devices
-- Updated all Armenian text references to reflect 3-month duration"
+- Restored elementor-builder block in hero section
+- Added all CSS styles for WordPress animation
+- Updated hero layout to two-column grid
+- Added responsive design for mobile devices
+- Restored floating animation and hover effects
 
-echo "✅ Changes committed successfully!"
-echo "📋 Summary of changes:"
-echo "   - Dashboard redesign completed"
-echo "   - Course duration updated to 3 months"
-echo "   - New course info section added"
-echo "   - Responsive design improved"
+Changes:
+- index.html: Added hero-image div with elementor-builder
+- styles.css: Added complete elementor styles and animations
+- Mobile responsive design updated"
+
+echo "✅ Commit completed successfully!"
+echo "📝 Commit message: 'feat: restore WordPress animated block in hero section'"
