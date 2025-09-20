@@ -1,38 +1,42 @@
 #!/bin/bash
 
-# WordPress Academy - Commit Changes Script
+# Neetrino Academy - Commit Changes Script
 # This script commits all changes to the repository
 
 echo "🚀 Starting commit process..."
 
 # Check if we're in a git repository
 if [ ! -d ".git" ]; then
-    echo "❌ Not a git repository. Initializing..."
+    echo "📁 Initializing Git repository..."
     git init
 fi
 
-# Add all files
-echo "📁 Adding files to staging..."
+# Add all changes
+echo "📦 Adding all changes..."
 git add .
 
-# Check status
-echo "📊 Git status:"
-git status
+# Create commit with current changes
+echo "💾 Creating commit..."
+git commit -m "Update Neetrino Academy website
 
-# Commit with message
-echo "💾 Committing changes..."
-git commit -m "feat: restore WordPress animated block in hero section
+🔄 Changes made:
+- Updated branding from WordPress Academy to Neetrino Academy
+- Redesigned footer with 3-column layout and register button
+- Synchronized header and footer navigation
+- Moved FAQ section to end of page
+- Created new 'Why study with us' section with 9 benefits
+- Updated tutor section titles
+- Improved responsive design and hover effects
+- Added round button styling
+- Updated copyright year to 2025
 
-- Restored elementor-builder block in hero section
-- Added all CSS styles for WordPress animation
-- Updated hero layout to two-column grid
-- Added responsive design for mobile devices
-- Restored floating animation and hover effects
+✨ New features:
+- Professional 3-column grid layout
+- Enhanced mobile responsiveness
+- Improved user experience
+- Better visual hierarchy
 
-Changes:
-- index.html: Added hero-image div with elementor-builder
-- styles.css: Added complete elementor styles and animations
-- Mobile responsive design updated"
+📱 All sections updated and tested!"
 
-echo "✅ Commit completed successfully!"
-echo "📝 Commit message: 'feat: restore WordPress animated block in hero section'"
+echo "✅ Changes committed successfully!"
+echo "🚀 Run ./deploy-to-github.sh to push to GitHub"

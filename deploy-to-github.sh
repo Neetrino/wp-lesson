@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# WordPress Academy - Deploy to GitHub Script
+# Neetrino Academy - Deploy to GitHub Script
 # Этот скрипт загружает проект на GitHub репозиторий
 
-echo "🚀 WordPress Academy - Deploy to GitHub"
+echo "🚀 Neetrino Academy - Deploy to GitHub"
 echo "========================================"
 
 # Проверяем, что мы в правильной директории
@@ -12,19 +12,11 @@ if [ ! -f "index.html" ]; then
     exit 1
 fi
 
-echo "✅ Найден файл index.html"
-
-# Инициализируем Git репозиторий
-echo "📁 Инициализация Git репозитория..."
-git init
-
-# Добавляем удаленный репозиторий
-echo "🔗 Добавление удаленного репозитория..."
-git remote add origin https://github.com/Neetrino/wp-lesson.git
-
-# Проверяем статус Git
-echo "📊 Проверка статуса Git..."
-git status
+# Инициализируем git репозиторий (если еще не инициализирован)
+if [ ! -d ".git" ]; then
+    echo "📁 Инициализация Git репозитория..."
+    git init
+fi
 
 # Добавляем все файлы
 echo "📦 Добавление файлов в Git..."
@@ -32,72 +24,57 @@ git add .
 
 # Создаем коммит
 echo "💾 Создание коммита..."
-git commit -m "Initial commit: WordPress Academy website
+git commit -m "Initial commit: Neetrino Academy website
 
 ✨ Features:
 - Modern responsive design with animations
 - Interactive CTA section with WhatsApp integration
 - Contact form with Google Maps integration
-- FAQ section with smooth animations
-- Tutor profiles with skills and portfolio
-- Course modules and pricing information
-- Mobile-first responsive approach
-- SEO optimized structure
+- FAQ section with accordion functionality
+- Professional tutor profiles
+- Course information and pricing
+- Mobile-friendly navigation
+- Armenian language support
 
 🎨 Design:
-- Color scheme: #070E61, #FF7500, #16B7EC
-- Clean white background
-- Rounded buttons with hover effects
-- Modern typography with Inter font
-- Smooth animations and transitions
+- Clean, modern UI with 3-column grid layout
+- Hover effects and smooth transitions
+- Professional color scheme
+- Responsive design for all devices
 
 📱 Sections:
-- Hero section with call-to-action
-- Course modules (3 weeks, 3 modules)
-- About WordPress information
-- Tutor profiles (2 instructors)
-- FAQ with interactive questions
-- Pricing (35,000 AMD/month)
-- Contact form with registration
-- CTA section with WhatsApp/call buttons
+- Hero section with course overview
+- Course program (3 modules)
+- Why study with us (9 benefits)
+- Professional tutors
+- Pricing information
+- Contact information with map
+- FAQ section
+- Footer with social links
 
-🛠 Technologies:
-- HTML5 semantic markup
-- CSS3 with modern animations
-- Vanilla JavaScript
+🔧 Technical:
+- Pure HTML, CSS, JavaScript
 - Font Awesome icons
 - Google Fonts (Inter)
-- Google Maps integration
+- Mobile-first responsive design
+- Cross-browser compatible"
 
-📞 Contact:
-- Phone: +374 44 34 30 00
-- WhatsApp: +374 44 34 30 00
-- Email: info@wordpress-academy.am
-- Telegram: @wordpress_academy"
-
-# Переименовываем основную ветку
-echo "🌿 Настройка основной ветки..."
-git branch -M main
-
-# Загружаем на GitHub
-echo "🚀 Загрузка на GitHub..."
-git push -u origin main
+# Проверяем, есть ли удаленный репозиторий
+if ! git remote get-url origin >/dev/null 2>&1; then
+    echo "⚠️  Удаленный репозиторий не настроен."
+    echo "📝 Для настройки выполните:"
+    echo "   git remote add origin https://github.com/YOUR_USERNAME/neetrino-academy.git"
+    echo "   git branch -M main"
+    echo "   git push -u origin main"
+    echo ""
+    echo "🔗 Или создайте репозиторий на GitHub и следуйте инструкциям."
+else
+    echo "🚀 Загрузка на GitHub..."
+    git branch -M main
+    git push -u origin main
+    echo "✅ Проект успешно загружен на GitHub!"
+fi
 
 echo ""
-echo "🎉 Успешно! Проект загружен на GitHub!"
-echo "🔗 Репозиторий: https://github.com/Neetrino/wp-lesson.git"
-echo ""
-echo "📋 Что было загружено:"
-echo "  ✅ index.html - Главная страница"
-echo "  ✅ styles.css - CSS стили с анимациями"
-echo "  ✅ script.js - JavaScript функциональность"
-echo "  ✅ README.md - Документация проекта"
-echo "  ✅ .gitignore - Исключения для Git"
-echo "  ✅ PLAN.md - План разработки"
-echo "  ✅ PROGRESS.md - Отслеживание прогресса"
-echo "  ✅ Lesson plan.md - План уроков"
-echo "  ✅ Instraction.md - Требования"
-echo "  ✅ tech.md - Техническая информация"
-echo ""
-echo "🌐 Ваш сайт готов к использованию!"
-echo "💡 Для просмотра откройте index.html в браузере"
+echo "🎉 Готово! Ваш сайт Neetrino Academy готов к использованию."
+echo "📄 Откройте index.html в браузере для просмотра."
