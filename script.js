@@ -803,6 +803,23 @@ function showNavInfo(navIndex) {
     }, 10);
 }
 
+// ===== BONUSES LIST ANIMATIONS =====
+function initializeBonusesList() {
+    const bonusItems = document.querySelectorAll('.bonus-item');
+    
+    // Add animation on load
+    bonusItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        
+        setTimeout(() => {
+            item.style.transition = 'all 0.6s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
 // ===== INITIALIZE ALL FUNCTIONALITY =====
 document.addEventListener('DOMContentLoaded', () => {
     // Create scroll to top button
@@ -822,6 +839,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize elementor builder interactions
     initializeElementorBuilder();
+    
+    // Initialize bonuses list animations
+    initializeBonusesList();
     
     // Add loading animation
     document.body.classList.add('loaded');

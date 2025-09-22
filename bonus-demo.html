@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бонусы - Все варианты дизайна</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+
+        .demo-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .design-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .design-option {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .design-option:hover {
+            transform: translateY(-5px);
+        }
+
+        .option-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .option-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .option-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+        }
+
+        .option-icon i {
+            position: relative;
+            z-index: 2;
+        }
+
+        .option-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #070E61;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-description {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #6c757d;
+        }
+
+        .option-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #16B7EC;
+            font-weight: bold;
+        }
+
+        .option-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .option-button:hover {
+            background: linear-gradient(135deg, #16B7EC, #FF7500);
+            transform: translateY(-2px);
+        }
+
+        .current-implementation {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .current-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .current-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #070E61;
+            margin-bottom: 1rem;
+        }
+
+        .current-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .implementation-preview {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .preview-text {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .preview-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .preview-button:hover {
+            background: linear-gradient(135deg, #16B7EC, #FF7500);
+            transform: translateY(-2px);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .comparison-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #070E61;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #070E61;
+        }
+
+        .feature-name {
+            font-weight: 500;
+            color: #070E61;
+        }
+
+        .check {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .cross {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .design-options {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-header">
+            <h1 class="demo-title">Բոնուսների Սեկցիայի Դիզայնի Վարիանտներ</h1>
+            <p class="demo-description">
+                Ընտրեք ամենահարմար դիզայնը ձեր կայքի համար
+            </p>
+        </div>
+
+        <div class="current-implementation">
+            <div class="current-header">
+                <h2 class="current-title">Ներկայիս Իրականացում</h2>
+                <p class="current-description">Կարտային դիզայն 4x3 ցանցով</p>
+            </div>
+            <div class="implementation-preview">
+                <p class="preview-text">Ներկայումս օգտագործվում է կարտային դիզայնը</p>
+                <a href="index.html" class="preview-button">Դիտել ներկայիս տարբերակը</a>
+            </div>
+        </div>
+
+        <div class="design-options">
+            <div class="design-option">
+                <div class="option-header">
+                    <div class="option-icon">
+                        <i class="fas fa-check-square"></i>
+                    </div>
+                    <h3 class="option-title">1. Ինտերակտիվ Չեկ-լիստ</h3>
+                    <p class="option-description">Օգտատերերը կարող են նշել բոնուսները</p>
+                </div>
+                <ul class="option-features">
+                    <li>Ինտերակտիվ չեկբոքսներ</li>
+                    <li>Անիմացիաներ և էֆեկտներ</li>
+                    <li>Պրոգրեսի հաշվիչ</li>
+                    <li>«Նշել բոլորը» կոճակ</li>
+                    <li>Նշումներ և ազդանշաններ</li>
+                </ul>
+                <a href="index.html" class="option-button">Դիտել տարբերակը</a>
+            </div>
+
+            <div class="design-option">
+                <div class="option-header">
+                    <div class="option-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3 class="option-title">2. Ժամանակային Գիծ</h3>
+                    <p class="option-description">Ցույց է տալիս բոնուսների ստացման փուլերը</p>
+                </div>
+                <ul class="option-features">
+                    <li>Վիզուալ ժամանակային գիծ</li>
+                    <li>Փուլերի բաժանում</li>
+                    <li>Անիմացիաներ</li>
+                    <li>Ռեսպոնսիվ դիզայն</li>
+                    <li>Գունային կոդավորում</li>
+                </ul>
+                <a href="bonus-timeline.html" class="option-button">Դիտել տարբերակը</a>
+            </div>
+
+            <div class="design-option">
+                <div class="option-header">
+                    <div class="option-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3 class="option-title">3. Ակորդեոն</h3>
+                    <p class="option-description">Կոմպակտ դիզայն՝ մանրամասն տեղեկություններով</p>
+                </div>
+                <ul class="option-features">
+                    <li>Կոմպակտ դիզայն</li>
+                    <li>Ընդլայնվող բաժիններ</li>
+                    <li>Մանրամասն նկարագրություններ</li>
+                    <li>Փուլերի նշում</li>
+                    <li>Ստատիստիկա</li>
+                </ul>
+                <a href="bonus-accordion.html" class="option-button">Դիտել տարբերակը</a>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h3 class="comparison-title">Դիզայնների Համեմատություն</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Հատկություն</th>
+                        <th>Կարտեր</th>
+                        <th>Չեկ-լիստ</th>
+                        <th>Ժամանակային Գիծ</th>
+                        <th>Ակորդեոն</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Ինտերակտիվություն</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Տարածքի օգտագործում</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Մոբայլ հարմարություն</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Վիզուալ ազդեցություն</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="cross">❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Տեղեկատվության խտություն</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Օգտատիրական փորձ</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Իրականացման բարդություն</td>
+                        <td class="check">✅</td>
+                        <td class="cross">❌</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="recommendation">
+                🏆 Ամենալավ տարբերակը՝ Ինտերակտիվ Չեկ-լիստ (բարձր օգտատիրական փորձ + ինտերակտիվություն)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

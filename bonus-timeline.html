@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бонусы - Временная шкала</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #070E61;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #070E61, #16B7EC, #FF7500);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 45%;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid white;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-right: 15px solid white;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 10;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+        }
+
+        .timeline-icon i {
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #16B7EC;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #070E61;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .timeline-phase {
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Specific colors for different phases */
+        .timeline-item[data-phase="immediate"] .timeline-icon::before {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .timeline-item[data-phase="during"] .timeline-icon::before {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+        }
+
+        .timeline-item[data-phase="after"] .timeline-icon::before {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+        }
+
+        .timeline-item[data-phase="ongoing"] .timeline-icon::before {
+            background: linear-gradient(135deg, #e83e8c, #6f42c1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+                padding-left: 60px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-content::before {
+                display: none;
+            }
+
+            .timeline-icon {
+                left: 30px;
+                transform: translateX(-50%);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        .timeline-summary {
+            background: linear-gradient(135deg, #070E61, #16B7EC);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .timeline-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-summary p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Բոնուսներ և Հավելյալ Արժեքներ</h2>
+            <p class="section-description">
+                Ձեր ճանապարհը դեպի WordPress մասնագետ՝ բոլոր բոնուսներով
+            </p>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <!-- Immediate bonuses -->
+            <div class="timeline-item" data-phase="immediate">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Անմիջապես</div>
+                    <div class="timeline-date">Գրանցման պահից</div>
+                    <h3 class="timeline-title">Փակ Telegram support խումբ</h3>
+                    <p class="timeline-description">Հարցուպատասխան, նեթվորքինգ և մշտական աջակցություն</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="immediate">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Անմիջապես</div>
+                    <div class="timeline-date">Գրանցման պահից</div>
+                    <h3 class="timeline-title">Elementor Pro նվեր</h3>
+                    <p class="timeline-description">Premium թեմա և գործիքներ</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="immediate">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Անմիջապես</div>
+                    <div class="timeline-date">Գրանցման պահից</div>
+                    <h3 class="timeline-title">WoodMart թեմա նվեր</h3>
+                    <p class="timeline-description">Premium eCommerce թեմա</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+            </div>
+
+            <!-- During course -->
+            <div class="timeline-item" data-phase="during">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ընթացքում</div>
+                    <div class="timeline-date">3 ամիս</div>
+                    <h3 class="timeline-title">Մշտական տեխնիկական աջակցություն</h3>
+                    <p class="timeline-description">Ամբողջ դասընթացի ընթացքում անձնական մենթորություն</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="during">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ընթացքում</div>
+                    <div class="timeline-date">2-րդ ամիս</div>
+                    <h3 class="timeline-title">AI հատուկ դաս</h3>
+                    <p class="timeline-description">Copilot, ChatGPT և այլ գործիքների ինտեգրում կայքերի մեջ</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="during">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ընթացքում</div>
+                    <div class="timeline-date">3-րդ ամիս</div>
+                    <h3 class="timeline-title">Վաճառքի դաս</h3>
+                    <p class="timeline-description">Հաճախորդների հետ շփման ու ծառայությունների ներկայացման հմտություններ</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+
+            <!-- After course -->
+            <div class="timeline-item" data-phase="after">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ավարտից հետո</div>
+                    <div class="timeline-date">Ավարտական</div>
+                    <h3 class="timeline-title">Ավարտական սերտիֆիկատ</h3>
+                    <p class="timeline-description">Պաշտոնական հավաստագիր ավարտից հետո</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="after">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ավարտից հետո</div>
+                    <div class="timeline-date">Ավարտական</div>
+                    <h3 class="timeline-title">Մի քանի պատրաստի կայք</h3>
+                    <p class="timeline-description">Պորտֆոլիոյի համար՝ տարբեր թեմաներով</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="after">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Դասընթացի ավարտից հետո</div>
+                    <div class="timeline-date">Ավարտական</div>
+                    <h3 class="timeline-title">Recommendation letter</h3>
+                    <p class="timeline-description">Լավագույն ուսանողների համար</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Ongoing benefits -->
+            <div class="timeline-item" data-phase="ongoing">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Մշտական</div>
+                    <div class="timeline-date">Ամեն ժամանակ</div>
+                    <h3 class="timeline-title">Աշխատանքի հնարավորություն</h3>
+                    <p class="timeline-description">Neetrino-ում կամ մեր գործընկերների մոտ</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-phase="ongoing">
+                <div class="timeline-content">
+                    <div class="timeline-phase">Մշտական</div>
+                    <div class="timeline-date">Ամեն ժամանակ</div>
+                    <h3 class="timeline-title">Զեղչեր</h3>
+                    <p class="timeline-description">Կայքի սպասարկման և հոսթինգի ծառայությունների վրա</p>
+                </div>
+                <div class="timeline-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-summary">
+            <h3>Ձեր ճանապարհը դեպի հաջողություն</h3>
+            <p>Ամբողջ դասընթացի ընթացքում և դրանից հետո մենք ձեզ կտրամադրենք բոլոր անհրաժեշտ գործիքները և աջակցությունը</p>
+        </div>
+    </div>
+</body>
+</html>
