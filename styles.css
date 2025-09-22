@@ -1071,213 +1071,204 @@ p {
     color: var(--primary-color);
 }
 
-/* ===== BONUS COURSES ===== */
-.bonus-courses {
-    background: var(--white);
-    padding: 4rem 3rem;
-    border-radius: 20px;
-    box-shadow: var(--shadow-lg);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
 
-.bonus-courses::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
-}
-
-.bonus-header {
-    margin-bottom: 3rem;
+/* ===== BONUSES SECTION ===== */
+.bonuses-section {
+    background: var(--light-gray);
+    padding: 6rem 0;
     position: relative;
 }
 
-.bonus-icon {
-    margin-bottom: 1rem;
-}
-
-.icon-circle {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(22, 183, 236, 0.3);
-    animation: pulse 2s infinite;
-}
-
-.icon-circle i {
-    font-size: 1.5rem;
-    color: var(--white);
-}
-
-.bonus-title {
-    font-size: 2.5rem;
-    color: var(--text-color);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
-
-.bonus-subtitle {
-    font-size: 1.1rem;
-    color: var(--gray);
-    margin: 0;
-}
-
-.bonus-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.bonus-card {
-    background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 0;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.bonus-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.bonus-card:hover::before {
-    transform: scaleX(1);
-}
-
-.bonus-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    border-color: var(--accent-color);
-}
-
-.bonus-card-header {
-    padding: 2rem 2rem 1rem;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.bonus-card-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: var(--white);
-    position: relative;
-    overflow: hidden;
-}
-
-.bonus-card-icon::before {
+.bonuses-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-    transform: translateX(-100%);
+    background: linear-gradient(135deg, rgba(7, 14, 97, 0.02) 0%, rgba(22, 183, 236, 0.02) 100%);
+    pointer-events: none;
+}
+
+.bonuses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.bonus-card {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.bonus-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(22, 183, 236, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.bonus-card:hover::before {
+    left: 100%;
+}
+
+.bonus-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+}
+
+.bonus-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.bonus-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 50%;
     transition: transform 0.3s ease;
 }
 
-.bonus-card:hover .bonus-card-icon::before {
-    transform: translateX(100%);
+.bonus-icon i {
+    position: relative;
+    z-index: 2;
 }
 
-.ai-icon {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+.bonus-card:hover .bonus-icon::before {
+    transform: scale(1.1);
 }
 
-.sales-icon {
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-}
-
-.bonus-card-badge {
-    background: var(--light-gray);
-    color: var(--text-color);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+.bonus-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    border: 1px solid var(--border-color);
-}
-
-.bonus-card-content {
-    padding: 0 2rem 2rem;
-}
-
-.bonus-card-content h4 {
     color: var(--text-color);
-    margin-bottom: 0.5rem;
-    font-size: 1.3rem;
-    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.3;
 }
 
-.bonus-card-description {
+.bonus-description {
     color: var(--gray);
-    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
     line-height: 1.5;
+    margin: 0;
 }
 
-.bonus-tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+/* Specific icon colors for different bonus types */
+.bonus-card:nth-child(1) .bonus-icon::before {
+    background: linear-gradient(135deg, #28a745, #20c997);
 }
 
-.tool-tag {
-    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
-    color: var(--white);
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    box-shadow: 0 2px 5px rgba(22, 183, 236, 0.2);
+.bonus-card:nth-child(2) .bonus-icon::before {
+    background: linear-gradient(135deg, #e83e8c, #fd7e14);
 }
 
-.bonus-skills {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.bonus-card:nth-child(3) .bonus-icon::before {
+    background: linear-gradient(135deg, #17a2b8, #6f42c1);
 }
 
-.skill-item {
-    background: var(--light-gray);
-    color: var(--text-color);
-    padding: 8px 12px;
-    border-radius: 8px;
+.bonus-card:nth-child(4) .bonus-icon::before {
+    background: linear-gradient(135deg, #0088cc, #17a2b8);
+}
+
+.bonus-card:nth-child(5) .bonus-icon::before {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.bonus-card:nth-child(6) .bonus-icon::before {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+.bonus-card:nth-child(7) .bonus-icon::before {
+    background: linear-gradient(135deg, #e83e8c, #6f42c1);
+}
+
+.bonus-card:nth-child(8) .bonus-icon::before {
+    background: linear-gradient(135deg, #17a2b8, #28a745);
+}
+
+.bonus-card:nth-child(9) .bonus-icon::before {
+    background: linear-gradient(135deg, #dc3545, #e83e8c);
+}
+
+.bonus-card:nth-child(10) .bonus-icon::before {
+    background: linear-gradient(135deg, #6f42c1, #e83e8c);
+}
+
+.bonus-card:nth-child(11) .bonus-icon::before {
+    background: linear-gradient(135deg, #fd7e14, #ffc107);
+}
+
+/* Responsive design for bonuses section */
+@media (max-width: 1200px) {
+    .bonuses-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .bonuses-section {
+        padding: 4rem 0;
+    }
+    
+    .bonuses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .bonus-card {
+        padding: 1.5rem;
+    }
+    
+    .bonus-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .bonus-title {
+        font-size: 1.1rem;
+    }
+    
+    .bonus-description {
     font-size: 0.9rem;
-    border-left: 3px solid var(--accent-color);
-    transition: var(--transition);
+    }
 }
 
-.skill-item:hover {
-    background: var(--accent-color);
-    color: var(--white);
-    transform: translateX(5px);
+@media (max-width: 480px) {
+    .bonuses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bonus-card {
+        padding: 1.25rem;
+    }
 }
 
 /* ===== ABOUT SECTION ===== */
@@ -2703,21 +2694,6 @@ p {
         grid-template-columns: 1fr;
     }
 
-    .bonus-courses {
-        padding: 3rem 2rem;
-    }
-
-    .bonus-title {
-        font-size: 2rem;
-    }
-
-    .bonus-card-header {
-        padding: 1.5rem 1.5rem 1rem;
-    }
-
-    .bonus-card-content {
-        padding: 0 1.5rem 1.5rem;
-    }
 }
 
 /* ===== MODERN ANIMATIONS ===== */
