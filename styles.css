@@ -1072,364 +1072,8 @@ p {
 }
 
 
-/* ===== BONUSES SECTION ===== */
-.bonuses-section {
-    background: var(--light-gray);
-    padding: 6rem 0;
-    position: relative;
-}
 
-.bonuses-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(7, 14, 97, 0.02) 0%, rgba(22, 183, 236, 0.02) 100%);
-    pointer-events: none;
-}
 
-/* ===== SIMPLE BONUSES LIST DESIGN ===== */
-.bonuses-list {
-    margin-top: 3rem;
-}
-
-.bonuses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.bonus-item {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 2rem;
-    background: var(--white);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid transparent;
-}
-
-.bonus-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(22, 183, 236, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
-.bonus-item:hover::before {
-    left: 100%;
-}
-
-.bonus-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-color);
-}
-
-.bonus-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: var(--white);
-    position: relative;
-    flex-shrink: 0;
-}
-
-.bonus-icon::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    border-radius: 15px;
-    transition: transform 0.3s ease;
-}
-
-.bonus-icon i {
-    position: relative;
-    z-index: 2;
-}
-
-.bonus-item:hover .bonus-icon::before {
-    transform: scale(1.1);
-}
-
-.bonus-content {
-    flex: 1;
-}
-
-.bonus-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-}
-
-.bonus-description {
-    color: var(--gray);
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-}
-
-/* Specific icon colors for different bonus types */
-.bonus-item[data-bonus="support"] .bonus-icon::before {
-    background: linear-gradient(135deg, #28a745, #20c997);
-}
-
-.bonus-item[data-bonus="ai"] .bonus-icon::before {
-    background: linear-gradient(135deg, #e83e8c, #fd7e14);
-}
-
-.bonus-item[data-bonus="sales"] .bonus-icon::before {
-    background: linear-gradient(135deg, #17a2b8, #6f42c1);
-}
-
-.bonus-item[data-bonus="telegram"] .bonus-icon::before {
-    background: linear-gradient(135deg, #0088cc, #17a2b8);
-}
-
-.bonus-item[data-bonus="websites"] .bonus-icon::before {
-    background: linear-gradient(135deg, #28a745, #20c997);
-}
-
-.bonus-item[data-bonus="certificate"] .bonus-icon::before {
-    background: linear-gradient(135deg, #ffc107, #fd7e14);
-}
-
-.bonus-item[data-bonus="recommendation"] .bonus-icon::before {
-    background: linear-gradient(135deg, #e83e8c, #6f42c1);
-}
-
-.bonus-item[data-bonus="job"] .bonus-icon::before {
-    background: linear-gradient(135deg, #17a2b8, #28a745);
-}
-
-.bonus-item[data-bonus="discounts"] .bonus-icon::before {
-    background: linear-gradient(135deg, #dc3545, #e83e8c);
-}
-
-.bonus-item[data-bonus="elementor"] .bonus-icon::before {
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-}
-
-.bonus-item[data-bonus="woodmart"] .bonus-icon::before {
-    background: linear-gradient(135deg, #fd7e14, #ffc107);
-}
-
-/* Responsive design for bonuses list */
-@media (max-width: 768px) {
-    .bonuses-section {
-        padding: 4rem 0;
-    }
-    
-    .bonuses-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .bonus-item {
-        padding: 1.5rem;
-    }
-    
-    .bonus-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-    
-    .bonus-title {
-        font-size: 1.2rem;
-    }
-    
-    .bonus-description {
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .bonus-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-        padding: 1.25rem;
-    }
-    
-    .bonus-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-    }
-    
-    .bonus-title {
-        font-size: 1.1rem;
-    }
-    
-    .bonus-description {
-        font-size: 0.9rem;
-    }
-}
-
-/* ===== DUPLICATE BONUSES SECTION FOR TESTING ===== */
-.bonuses-section-duplicate {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 6rem 0;
-    position: relative;
-    border-top: 3px solid var(--accent-color);
-}
-
-.bonuses-section-duplicate::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(22, 183, 236, 0.03) 0%, rgba(7, 14, 97, 0.03) 100%);
-    pointer-events: none;
-}
-
-.bonuses-section-duplicate .section-title {
-    color: var(--accent-color);
-    position: relative;
-}
-
-.bonuses-section-duplicate .section-title::after {
-    content: ' (Test Version)';
-    font-size: 0.6em;
-    color: var(--secondary-color);
-    font-weight: 400;
-}
-
-/* ===== CHECKMARK LIST STYLE FOR TEST VERSION ===== */
-.bonuses-checkmark-list {
-    margin-top: 3rem;
-}
-
-.bonuses-two-columns {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.bonus-checkmark-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid #e9ecef;
-    transition: all 0.3s ease;
-}
-
-.bonus-checkmark-item:last-child {
-    border-bottom: none;
-}
-
-.bonus-checkmark-item:hover {
-    transform: translateX(5px);
-}
-
-.bonus-checkmark-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    color: var(--white);
-    flex-shrink: 0;
-    margin-top: 0.25rem;
-    transition: all 0.3s ease;
-}
-
-.bonus-checkmark-item:hover .bonus-checkmark-icon {
-    background: var(--primary-color);
-    transform: scale(1.1);
-}
-
-.bonus-checkmark-content {
-    flex: 1;
-}
-
-.bonus-checkmark-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-}
-
-.bonus-checkmark-description {
-    color: var(--gray);
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin: 0;
-}
-
-/* Responsive design for checkmark list */
-@media (max-width: 768px) {
-    .bonuses-section-duplicate {
-        padding: 4rem 0;
-    }
-    
-    .bonuses-two-columns {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .bonus-checkmark-item {
-        padding: 1rem 0;
-    }
-    
-    .bonus-checkmark-icon {
-        width: 20px;
-        height: 20px;
-        font-size: 0.8rem;
-    }
-    
-    .bonus-checkmark-title {
-        font-size: 1.1rem;
-    }
-    
-    .bonus-checkmark-description {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .bonus-checkmark-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.75rem;
-        padding: 1.25rem 0;
-    }
-    
-    .bonus-checkmark-icon {
-        align-self: center;
-        margin-top: 0;
-    }
-}
 
 /* ===== ABOUT SECTION ===== */
 .about {
@@ -3038,5 +2682,141 @@ p {
     
     .feature {
         padding: 1.5rem 1rem;
+    }
+}
+
+/* ===== BONUSES SECTION ===== */
+.bonuses-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 6rem 0;
+    position: relative;
+}
+
+.bonuses-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(22, 183, 236, 0.03) 0%, rgba(7, 14, 97, 0.03) 100%);
+    pointer-events: none;
+}
+
+.bonuses-section .section-title {
+    color: var(--text-color);
+    position: relative;
+}
+
+/* ===== CHECKMARK LIST STYLE ===== */
+.bonuses-checkmark-list {
+    margin-top: 3rem;
+}
+
+.bonuses-two-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.bonus-checkmark-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.bonus-checkmark-item:last-child {
+    border-bottom: none;
+}
+
+.bonus-checkmark-item:hover {
+    transform: translateX(5px);
+}
+
+.bonus-checkmark-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--white);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.bonus-checkmark-item:hover .bonus-checkmark-icon {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.bonus-checkmark-content {
+    flex: 1;
+}
+
+.bonus-checkmark-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.bonus-checkmark-description {
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Responsive design for bonuses */
+@media (max-width: 768px) {
+    .bonuses-section {
+        padding: 4rem 0;
+    }
+    
+    .bonuses-two-columns {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .bonus-checkmark-item {
+        padding: 1rem 0;
+    }
+    
+    .bonus-checkmark-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .bonus-checkmark-title {
+        font-size: 1.1rem;
+    }
+    
+    .bonus-checkmark-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bonus-checkmark-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+        padding: 1.25rem 0;
+    }
+    
+    .bonus-checkmark-icon {
+        align-self: center;
+        margin-top: 0;
     }
 }
